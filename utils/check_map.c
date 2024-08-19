@@ -1,19 +1,5 @@
 #include "../so_long.h"
 
-int is_(char c)
-{
-    if (c == ' ' || c == 'M' || c == 'P')
-        return (1);
-    return (0);
-}
-
-int is_1(char c)
-{
-    if (c == '.' || c == ',' || c == 'p')
-        return (1);
-    return (0);
-}
-
 int check_end(int *cur, char **map)
 {
     if (map[cur[0]][cur[1] + 1] == 'E')
@@ -24,159 +10,6 @@ int check_end(int *cur, char **map)
         return (1);
     else if (map[cur[0] - 1][cur[1]] == 'E')
         return (1);
-    return (0);
-}
-
-
-int check_move_1(int *from, int *cur, char **map)
-{
-    // int *from;
-    // int *cur;
-
-    // from = *from_;
-    // cur = *cur_;
-    // printf("2FROM: %d | %d\n", from[0], from[1]);
-    // printf("2 TO: %d | %d\n", cur[0], cur[1]);
-    printf("2\n");
-    if (map[cur[0]][cur[1]] == 'M')
-        map[cur[0]][cur[1]] = ',';
-    if (map[cur[0]][cur[1]] == 'P')
-        map[cur[0]][cur[1]] = 'p';
-    if (is_(map[cur[0] - 1][cur[1]]) && from[0] != cur[0] - 1)
-    {
-        printf("UP\n");
-        return (from[0] = cur[0], from[1] = cur[1], cur[0] -= 1, 1);
-    }
-    else if (is_(map[cur[0]][cur[1] - 1]) && from[1] != cur[1] - 1)
-    {
-        printf("LEFT\n");
-        return (from[0] = cur[0], from[1] = cur[1], cur[1] -= 1, 1);
-    }
-    else if (is_(map[cur[0] + 1][cur[1]]) && from[0] != cur[0] + 1)
-    {
-        printf("DOWN\n");
-        return (from[0] = cur[0], from[1] = cur[1], cur[0] += 1, 1);
-    }
-    else if (is_(map[cur[0]][cur[1] + 1]) && from[1] != cur[1] + 1)
-    {
-        printf("RIGHT\n");
-        return (from[0] = cur[0], from[1] = cur[1], cur[1] += 1, 1);
-    }
-    return (0);
-}
-// void update_both(int *from, int *cur, int y, int x)
-// {
-//     int i;
-//     int j;
-
-//     i = cur[0];
-//     j = cur[1];
-//     if (!y && x)
-
-
-// }
-
-int check_move(int *from, int *cur, char **map)
-{
-    // int *from;
-    // int *cur;
-
-    // from = *from_;
-    // cur = *cur_;
-    if (map[cur[0]][cur[1]] == 'M')
-        map[cur[0]][cur[1]] = ',';
-    if (map[cur[0]][cur[1]] == 'P')
-        map[cur[0]][cur[1]] = 'p';
-    printf("1\n");
-    if (is_(map[cur[0]][cur[1] + 1]) && from[1] != cur[1] + 1)
-    {
-        printf("RIGHT\n");
-        return (from[0] = cur[0], from[1] = cur[1], cur[1] += 1, 1);
-    }
-    else if (is_(map[cur[0] + 1][cur[1]]) && from[0] != cur[0] + 1)
-    {
-        printf("DOWN\n");
-        return (from[0] = cur[0], from[1] = cur[1], cur[0] += 1, 1);
-    }
-    else if (is_(map[cur[0]][cur[1] - 1]) && from[1] != cur[1] - 1)
-    {
-        printf("LEFT\n");
-        return (from[0] = cur[0], from[1] = cur[1], cur[1] -= 1, 1);
-    }
-    else if (is_(map[cur[0] - 1][cur[1]]) && from[0] != cur[0] - 1)
-    {
-        printf("UP\n");
-        return (from[0] = cur[0], from[1] = cur[1], cur[0] -= 1, 1);
-    }
-    return (0);
-}
-
-int check_move_2(int *from, int *cur, char **map)
-{
-    // int *from;
-    // int *cur;
-
-    // from = *from_;
-    // cur = *cur_;
-    if (map[cur[0]][cur[1]] == 'M')
-        map[cur[0]][cur[1]] = ',';
-    if (map[cur[0]][cur[1]] == 'P')
-        map[cur[0]][cur[1]] = 'p';
-    printf("3\n");
-    if (is_1(map[cur[0]][cur[1] + 1]) && from[1] != cur[1] + 1)
-    {
-        printf("RIGHT\n");
-        return (from[0] = cur[0], from[1] = cur[1], cur[1] += 1, 1);
-    }
-    else if (is_1(map[cur[0] + 1][cur[1]]) && from[0] != cur[0] + 1)
-    {
-        printf("DOWN\n");
-        return (from[0] = cur[0], from[1] = cur[1], cur[0] += 1, 1);
-    }
-    else if (is_1(map[cur[0]][cur[1] - 1]) && from[1] != cur[1] - 1)
-    {
-        printf("LEFT\n");
-        return (from[0] = cur[0], from[1] = cur[1], cur[1] -= 1, 1);
-    }
-    else if (is_1(map[cur[0] - 1][cur[1]]) && from[0] != cur[0] - 1)
-    {
-        printf("UP\n");
-        return (from[0] = cur[0], from[1] = cur[1], cur[0] -= 1, 1);
-    }
-    return (0);
-}
-int check_move_3(int *from, int *cur, char **map)
-{
-    // int *from;
-    // int *cur;
-
-    // from = *from_;
-    // cur = *cur_;
-    if (map[cur[0]][cur[1]] == 'M')
-        map[cur[0]][cur[1]] = ',';
-    if (map[cur[0]][cur[1]] == 'P')
-        map[cur[0]][cur[1]] = 'p';
-    printf("4\n");
-    if (is_1(map[cur[0]][cur[1] + 1]) && from[1] != cur[1] + 1)
-    {
-        printf("RIGHT\n");
-        return (from[0] = cur[0], from[1] = cur[1], cur[1] += 1, 1);
-    }
-    else if (is_1(map[cur[0] + 1][cur[1]]) && from[0] != cur[0] + 1)
-    {
-        printf("DOWN\n");
-        return (from[0] = cur[0], from[1] = cur[1], cur[0] += 1, 1);
-    }
-    else if (is_1(map[cur[0]][cur[1] - 1]) && from[1] != cur[1] - 1)
-    {
-        printf("LEFT\n");
-        return (from[0] = cur[0], from[1] = cur[1], cur[1] -= 1, 1);
-    }
-    else if (is_1(map[cur[0] - 1][cur[1]]) && from[0] != cur[0] - 1)
-    {
-        printf("UP\n");
-        return (from[0] = cur[0], from[1] = cur[1], cur[0] -= 1, 1);
-    }
     return (0);
 }
 
@@ -191,24 +24,20 @@ int try_right(int *from, int *cur, char **map, int *tries)
     if (check_end(cur, map))
         return (1);
     (*tries)--;
-    if (check_move(from, cur, map) && *tries > 0)
-    {
-        if (map[from[0]][from[1]] != 'M' && map[from[0]][from[1]] != ',' && map[from[0]][from[1]] != 'p')
-            map[from[0]][from[1]] = '.';
+    if ( (check_move_4(from, cur, map) || check_move(from, cur, map) ) && *tries > 0)
         i += try_right(from, cur, map, tries);
-    }
     else if (check_move_1(cur, from, map) && *tries > 0)
     {
-        if (map[from[0]][from[1]] != 'M' && map[from[0]][from[1]] != ',' && map[from[0]][from[1]] != 'p')
-            map[from[0]][from[1]] = '.';
-        i += try_right(cur, from, map, tries);
+        i += try_right(cur, from, map, tries);  
     }
     else if (check_move_2(from, cur, map) && *tries > 0)
     {
+        mark_3(map, from);
         i += try_right(from, cur, map, tries);
     }
     else if (check_move_3(cur, from, map) && *tries > 0)
     {
+        mark_3(map, from);
         i += try_right(cur, from, map, tries);
     }
     else
@@ -231,7 +60,7 @@ int real_check (char **map, t_data data)
     find_elem(&coord, data, 'P', -1);
     coord1[0] = coord[0];
     coord1[1] = coord[1];
-    tries = 300;
+    tries = 500;
     if (try_right(coord1, coord, map, &tries))
         return (1);
     return (0);
@@ -254,10 +83,11 @@ int real_check_2 (char **map, t_data data)
     while (count)
     {
         printf("----------------COUNT: %d\n", count);
-        find_elem(&coord, data, 'M', count);
+        update_map(data.map);
+        find_elem(&coord, data, 'C', count);
         coord1[0] = coord[0];
         coord1[1] = coord[1];
-        tries = 300;
+        tries = 500;
         if (try_right(coord1, coord, map, &tries))
             count--;
         else
@@ -355,18 +185,21 @@ int check_map(t_data data)
 {
     if (!(data.mystery))
         return (0);
+    printf("thissssssssssss\n");
     if (!(check_count(data.map)))
         return (0);
     if (!shape(data.map))
         return (0);
     if (!wall(data.map))
         return (0);
-    if (!real_check(data.map, data))
+    if (!flood_fill(data))
         return (0);
-    printf("YES\n");
-    update_map(data.map);
-    if (!real_check_2(data.map, data))
-        return (0);
+    // if (!real_check(data.map, data))
+    //     return (0);
+    // printf("YES\n");
+    // update_map(data.map);
+    // if (!real_check_2(data.map, data))
+    //     return (0);
     printf("APPROVED!\n");
     return (1);
 }

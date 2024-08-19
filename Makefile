@@ -20,7 +20,7 @@ OBJ_MAIN		= $(PATH_MAIN:.c=.o)
 
 # UTILS
 DIR_UTILS		= utils/
-SRCS_UTILS		= utils_1.c make_move.c check_map.c
+SRCS_UTILS		= utils_1.c make_move.c check_map.c check_map_1.c check_map_utils.c get_next_line.c get_next_line_utils.c flood_fill.c
 PATH_UTILS		= $(addprefix $(DIR_UTILS), $(SRCS_UTILS))
 OBJ_UTILS		= $(PATH_UTILS:.c=.o)
 
