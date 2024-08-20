@@ -65,19 +65,6 @@ void    map_map(t_data *data)
     data->textures[4] = mlx_xpm_file_to_image(data->mlx_ptr, EXIT, &tile_size, &tile_size);
 }
 
-    // char *init_map[] = {
-    // //   0123456789012
-    //     "1111111111111", // 0
-    //     "1P1E 1M1   11", // 1
-    //     "1 11 1   1 M1", // 2
-    //     "1      1  111",//  3
-    //     "111111111 111",//  4
-    //     "111  MM11 111",//  5
-    //     "111111M   111",//  6
-    //     "1111111111111",
-    //     NULL
-    // };
-
 int main(int argc, char **argv)
 {
     t_data data;
@@ -103,17 +90,12 @@ int main(int argc, char **argv)
         data.win_ptr = mlx_new_window(data.mlx_ptr, count_this(data.map[0]) * TILE_SIZE, count_this_2(data.map) * TILE_SIZE, "so_long");
         if (!data.win_ptr)
             return (free(data.mlx_ptr), 1);
-        // load the tiles into the data struct
         map_map(&data);
-        // creating a new image
         data.img.img_ptr = mlx_new_image(data.mlx_ptr, count_this(data.map[0]) * TILE_SIZE, count_this_2(data.map) * TILE_SIZE);
         if (!data.img.img_ptr)
             return (1);
-        // Filling the img struct with data
         data.img.img_pixels_ptr = (int *)mlx_get_data_addr(data.img.img_ptr, &data.img.bits_pp, &data.img.line_len, &data.img.endian);
-        // render_pixels(data);
         render_map(&data);
-        // mlx_put_image_to_window(data.mlx_ptr, data.win_ptr, data.img.img_ptr, 0, 0);
         mlx_key_hook(data.win_ptr, &on_key_press, &data);
         mlx_hook(data.win_ptr, DestroyNotify, StructureNotifyMask, &on_destroy, &data);
         mlx_loop(data.mlx_ptr);

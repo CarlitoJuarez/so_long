@@ -30,7 +30,6 @@ int count_this(char *s)
     count = 0;
     while (s[count] && s[count] != '\n')
         count++;
-    printf("COUNT1: %d\n", count);
     return (count);
 }
 
@@ -41,7 +40,6 @@ int count_this_2(char **arr)
     j = 0;
     while (arr[j])
         j++;
-    printf("J:%d\n", j);
     return (j);
 }
 
