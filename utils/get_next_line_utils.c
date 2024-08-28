@@ -1,43 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cjuarez <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/28 10:40:23 by cjuarez           #+#    #+#             */
+/*   Updated: 2024/08/28 10:40:26 by cjuarez          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../so_long.h"
 
-char	*ft_strjoin(char *buffer, const char *content)
+void	free_this(char *str)
 {
-	size_t	buffer_len;
-	size_t	content_len;
-	char	*result;
-	char	*result_ptr;
-	char	*src;
-
-	buffer_len = 0;
-	if (!buffer && !content)
-		return (NULL);
-	if (buffer)
-		buffer_len = ft_strlen(buffer);
-	content_len = ft_strlen(content);
-	result = (char *)malloc(sizeof(char) * (buffer_len + content_len + 1));
-	if (!result)
-		return (NULL);
-	result_ptr = result;
-	src = buffer;
-	while (src && *src)
-		*result_ptr++ = *src++;
-	src = (char *)content;
-	while (src && *src)
-		*result_ptr++ = *src++;
-	*result_ptr = '\0';
-	free(buffer);
-	return (result);
+	if (str)
+		free(str);
 }
 
-char	*ft_strcpy(char *dest, const char *src)
+size_t	ft_strlen(const char *str)
 {
-	char	*dest_start;
+	size_t	i;
 
-	dest_start = dest;
-	while (*src)
-		*dest++ = *src++;
-	*dest = '\0';
-	return (dest_start);
+	i = 0;
+	while (str && *(str + i))
+		i++;
+	return (i);
 }
 
 char	*ft_strchr(char const *str, int c)
@@ -56,12 +44,29 @@ char	*ft_strchr(char const *str, int c)
 		return (NULL);
 }
 
-size_t	ft_strlen(const char *str)
+char	*ft_strjoin(char *buffer, char *content)
 {
-	size_t	i;
+	size_t	content_len;
+	char	*result;
+	char	*result_ptr;
+	char	*src;
 
-	i = 0;
-	while (*(str + i))
-		i++;
-	return (i);
+	if (!buffer && !content)
+		return (NULL);
+	content_len = ft_strlen(content);
+	if (!content_len && !ft_strlen(buffer))
+		return (NULL);
+	result = malloc(sizeof(char) * (ft_strlen(buffer) + content_len + 1));
+	if (!result)
+		return (free(buffer), NULL);
+	src = buffer;
+	result_ptr = result;
+	while (src && *src)
+		*result_ptr++ = *src++;
+	src = (char *)content;
+	while (src && *src)
+		*result_ptr++ = *src++;
+	*result_ptr = '\0';
+	free(buffer);
+	return (result);
 }

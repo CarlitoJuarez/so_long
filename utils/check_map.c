@@ -1,189 +1,133 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_map.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cjuarez <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/28 10:31:50 by cjuarez           #+#    #+#             */
+/*   Updated: 2024/08/28 10:32:41 by cjuarez          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../so_long.h"
 
-// int check_end(int *cur, char **map)
-// {
-//     if (map[cur[0]][cur[1] + 1] == 'E')
-//         return (1);
-//     else if (map[cur[0] + 1][cur[1]] == 'E')
-//         return (1);
-//     else if (map[cur[0]][cur[1] - 1] == 'E')
-//         return (1);
-//     else if (map[cur[0] - 1][cur[1]] == 'E')
-//         return (1);
-//     return (0);
-// }
-
-// int try_right(int *from, int *cur, char **map, int *tries)
-// {
-//     int i;
-
-//     i = 0;
-//     printf("_____________TRIES: %d\n", *tries);
-//     printf("FROM: %d | %d\n", from[0], from[1]);
-//     printf("  TO: %d | %d\n", cur[0], cur[1]);
-//     if (check_end(cur, map))
-//         return (1);
-//     (*tries)--;
-//     if ( (check_move_4(from, cur, map) || check_move(from, cur, map) ) && *tries > 0)
-//         i += try_right(from, cur, map, tries);
-//     else if (check_move_1(cur, from, map) && *tries > 0)
-//     {
-//         i += try_right(cur, from, map, tries);  
-//     }
-//     else if (check_move_2(from, cur, map) && *tries > 0)
-//     {
-//         mark_3(map, from);
-//         i += try_right(from, cur, map, tries);
-//     }
-//     else if (check_move_3(cur, from, map) && *tries > 0)
-//     {
-//         mark_3(map, from);
-//         i += try_right(cur, from, map, tries);
-//     }
-//     else
-//         return (0);
-//     return (i);
-// }
-
-// int real_check (char **map, t_data data)
-// {
-//     int *coord;
-//     int *coord1;
-//     int tries;
-
-//     coord = malloc(sizeof(int) * 2);
-//     coord1 = malloc(sizeof(int) * 2);
-//     coord[0] = 0;
-//     coord[1] = 0;
-//     coord1[0] = 0;
-//     coord1[1] = 0;
-//     find_elem(&coord, data, 'P', -1);
-//     coord1[0] = coord[0];
-//     coord1[1] = coord[1];
-//     tries = 500;
-//     if (try_right(coord1, coord, map, &tries))
-//         return (1);
-//     return (0);
-// }
-
-// int real_check_2 (char **map, t_data data)
-// {
-//     int *coord;
-//     int *coord1;
-//     int count;
-//     int tries;
-
-//     coord = malloc(sizeof(int) * 2);
-//     coord1 = malloc(sizeof(int) * 2);
-//     coord[0] = 0;
-//     coord[1] = 0;
-//     coord1[0] = 0;
-//     coord1[1] = 0;
-//     count = data.mystery;
-//     while (count)
-//     {
-//         printf("----------------COUNT: %d\n", count);
-//         update_map(data.map);
-//         find_elem(&coord, data, 'C', count);
-//         coord1[0] = coord[0];
-//         coord1[1] = coord[1];
-//         tries = 500;
-//         if (try_right(coord1, coord, map, &tries))
-//             count--;
-//         else
-//             return (0);
-//     }
-//     return (1);
-// }
-
-int check_count(char **map)
+void	check_file(char *file)
 {
-    int i;
-    int j;
-    int player_exit;
+	int	i;
 
-    i = 0;
-    player_exit = 0;
-    if (!map)
-        return (0);
-    while (map[i])
-    {
-        j = 0;
-        while (map[i][j])
-        {
-            if (map[i][j] == 'P' || map[i][j] == 'E')
-                player_exit++;
-            j++;
-        }
-        i++;
-    }
-    if (player_exit != 2)
-        return (0);
-    return (1);
+	i = 0;
+	while (file[i])
+		i++;
+	if (file[i - 1] != 'r' || file[i - 2] != 'e'
+		|| file[i - 3] != 'b' || file[i - 4] != '.')
+		free_close_exit(NULL, NULL, 0, "Bad Extension\n");
+	else if (file[i - 4] == '.' && (file[i - 5] < 33
+			|| file[i - 5] > 126 || file[i - 5] == '/'))
+		free_close_exit(NULL, NULL, 0, "Bad Filename\n");
+	i -= 4;
+	if (i == 0)
+		free_close_exit(NULL, NULL, 0, "Bad Filename\n");
+	while (--i)
+	{
+		if (file[i] < 33 || file[i] > 126)
+			free_close_exit(NULL, NULL, 0, "Bad Filename\n");
+	}
 }
 
-int shape(char **map)
+int	check_count(t_data *data, char **map)
 {
-    int rows;
-    int columns;
-    int test;
+	int	i;
+	int	j;
+	int	player_exit;
 
-    test = 0;
-    rows = 0;
-    while (map[rows])
-    {
-        if (rows == 0)
-        {
-            columns = 0;
-            while (map[rows][columns])
-                columns++;
-        }
-        else
-        {
-            test = 0;
-            while (map[rows][test])
-                test++;
-            if (test != columns)
-                return (0);
-        }
-        rows++;
-    }        
-    return (1);
+	i = -1;
+	player_exit = 0;
+	if (!map)
+		return (0);
+	while (map[++i])
+	{
+		j = -1;
+		while (map[i] && map[i][++j])
+		{
+			if (map[i][j] == 'P' || map[i][j] == 'E')
+				player_exit++;
+			else if (map[i][j] == 'C')
+				data->mystery++;
+			else if (!(map[i][j] != '1' || map[i][j] != '0'))
+				return (0);
+		}
+	}
+	if (player_exit != 2 || !data->mystery)
+		return (0);
+	return (1);
 }
 
-int wall(char **map)
+int	shape(char **map)
 {
-    int i;
-    int j;
+	int	rows;
+	int	columns;
+	int	test;
 
-    i = -1;
-    while (map[++i])
-    {
-        j = -1;
-        while (map[i][++j])
-        {
-            if (i == 0 || i == count_this_2 || j = 0
-                || j == count_this(map[i]));
-            {
-                if (map[i][j] != '1')
-                    return (0);
-            }
-        }
-    }
-    return (1);
+	test = 0;
+	rows = 0;
+	while (map[rows])
+	{
+		if (rows == 0)
+		{
+			columns = 0;
+			while (map[rows][columns] && map[rows][columns] != '\n')
+				columns++;
+		}
+		else
+		{
+			test = 0;
+			while (map[rows][test] && map[rows][test] != '\n')
+				test++;
+			if (test != columns)
+				return (0);
+		}
+		rows++;
+	}
+	return (1);
 }
 
-int check_map(t_data data)
+int	wall(char **map)
 {
-    if (!(data.mystery))
-        return (0);
-    if (!(check_count(data.map)))
-        return (0);
-    if (!shape(data.map))
-        return (0);
-    if (!wall(data.map))
-        return (0);
-    if (!flood_fill(data))
-        return (0);
-    return (1);
+	int	i;
+	int	j;
+
+	i = -1;
+	while (map[++i])
+	{
+		j = -1;
+		while (map[i][++j])
+		{
+			if (!(map[i][j] == 'C' || map[i][j] == 'P'
+				|| map[i][j] == 'E' || map[i][j] == '1'
+				|| map[i][j] == '0'))
+				return (0);
+			if (i == 0 || j == 0 || i == count_this_2(map) - 1
+				|| j == count_this(map[i]) - 1)
+			{
+				if (map[i][j] != '1')
+					return (0);
+			}
+		}
+	}
+	return (1);
+}
+
+int	check_map(t_data *data)
+{
+	if (!(check_count(data, data->map)))
+		return (0);
+	if (!shape(data->map))
+		return (0);
+	if (!wall(data->map))
+		return (0);
+	if (!flood_fill(*data))
+		return (0);
+	update_map(data->map);
+	return (1);
 }

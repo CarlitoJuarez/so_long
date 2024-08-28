@@ -75,20 +75,17 @@ void	map_map(t_data *data)
 		on_destroy(data);
 }
 
-int	on_key_press(int keysym, t_data *data)
+void	main_continue(t_data *data)
 {
-	if (keysym == XK_w)
-		move_up(data);
-	else if (keysym == XK_a)
-		move_left(data);
-	else if (keysym == XK_s)
-		move_down(data);
-	else if (keysym == XK_d)
-		move_right(data);
-	else if (keysym == XK_Escape)
-		on_destroy(data);
-	write(1, "MOVES: ", 7);
-	return (ft_putnbr((*data).moves), write(1, "\n", 1), 1);
+	// data->img.img_pixels_ptr = (int *)mlx_get_data_addr(data->img.img_ptr,
+	// 		&(data->img.bits_pp), &(data->img.line_len), &(data->img.endian));
+	// if (!(data->img.img_pixels_ptr))
+	// 	on_destroy(data);
+	render_map(data);
+	mlx_key_hook(data->win_ptr, &on_key_press, data);
+	mlx_hook(data->win_ptr, DestroyNotify, StructureNotifyMask,
+		&on_destroy, data);
+	mlx_loop(data->mlx_ptr);
 }
 
 int	main(int argc, char **argv)
@@ -107,11 +104,27 @@ int	main(int argc, char **argv)
 		if (!data.win_ptr)
 			return (on_destroy(&data), 1);
 		map_map(&data);
-		render_map(&data);
-		mlx_key_hook(data.win_ptr, &on_key_press, &data);
-		mlx_hook(data.win_ptr, DestroyNotify, StructureNotifyMask,
-			&on_destroy, &data);
-		mlx_loop(data.mlx_ptr);
+		// data.img.img_ptr = mlx_new_image(data.mlx_ptr,
+		// 		count_this(data.map[0]) * TILE_SIZE,
+		// 		count_this_2(data.map) * TILE_SIZE);
+		// if (!data.img.img_ptr)
+		// 	return (on_destroy(&data), 1);
+		main_continue(&data);
 	}
 	return (0);
+}
+int	on_key_press(int keysym, t_data *data)
+{
+	if (keysym == XK_w)
+		move_up(data);
+	else if (keysym == XK_a)
+		move_left(data);
+	else if (keysym == XK_s)
+		move_down(data);
+	else if (keysym == XK_d)
+		move_right(data);
+	else if (keysym == XK_Escape)
+		on_destroy(data);
+	write(1, "MOVES: ", 7);
+	return (ft_putnbr((*data).moves), write(1, "\n", 1), 1);
 }
